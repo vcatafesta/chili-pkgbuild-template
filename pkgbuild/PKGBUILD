@@ -1,6 +1,6 @@
 # Maintainer: Vilmar Catafesta <vcatafesta@gmail.com>
 
-pkgname=pkgbuild-template
+pkgname=chili-pkgname
 pkgdesc="Package template for Chililinux"
 #depends=('')
 #makedepends=('')
