@@ -1,1 +1,1 @@
-# chili-pkgbuild-template
+# chili-
