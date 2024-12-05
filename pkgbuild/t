@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # shellcheck shell=bash disable=SC1091,SC2039,SC2166
 #
-#  template - Template file for Void pkgname
+#  t
 #  Created: 2024/12/05 - 10:03
 #  Altered: 2024/12/05 - 10:03
 #
@@ -29,30 +29,56 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##############################################################################
-# Template file for 'chili-pkgname'
-pkgname=chili-pkgname
-version=1.0.0
-revision=1
-noarch=true
-#build_style=gnu-makefile
-#depends="gtk+3 gnome-bluetooth python3-setproctitle rfkill xapps"
-#hostmakedepends="gettext"
-hostmakedepends="git"
-short_desc="Chili PKGBUILD and template for VoidLinux"
-maintainer="Vilmar Catafesta <vcatafesta@gmail.com>"
-license="MIT"
-homepage="https://github.com/chililinux/${pkgname}"
-#distfiles="${homepage}/archive/$version/$pkgname-$version.tar.gz"
-#checksum=37a5b0bc3c7cbccee625209b9196a2e2966396cfe5c7652318559642fb6a7a32
-wrksrc=${pkgname}
+#export LANGUAGE=pt_BR
+export TEXTDOMAINDIR=/usr/share/locale
+export TEXTDOMAIN=t
 
-do_fetch() {
-	git clone --depth 1 ${homepage} ${wrksrc}
-	cd ${wrksrc}
-	git checkout main
-}
+# Definir a variável de controle para restaurar a formatação original
+reset=$(tput sgr0)
 
-do_install() {
-	vcopy etc /
-	vcopy usr /
+# Definir os estilos de texto como variáveis
+bold=$(tput bold)
+underline=$(tput smul)   # Início do sublinhado
+nounderline=$(tput rmul) # Fim do sublinhado
+reverse=$(tput rev)      # Inverte as cores de fundo e texto
+
+# Definir as cores ANSI como variáveis
+black=$(tput bold)$(tput setaf 0)
+red=$(tput bold)$(tput setaf 196)
+green=$(tput bold)$(tput setaf 2)
+yellow=$(tput bold)$(tput setaf 3)
+blue=$(tput setaf 4)
+pink=$(tput setaf 5)
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)
+white=$(tput setaf 7)
+gray=$(tput setaf 8)
+orange=$(tput setaf 202)
+purple=$(tput setaf 125)
+violet=$(tput setaf 61)
+light_red=$(tput setaf 9)
+light_green=$(tput setaf 10)
+light_yellow=$(tput setaf 11)
+light_blue=$(tput setaf 12)
+light_magenta=$(tput setaf 13)
+light_cyan=$(tput setaf 14)
+bright_white=$(tput setaf 15)
+
+#debug
+export PS4='${red}${0##*/}${green}[$FUNCNAME]${pink}[$LINENO]${reset}'
+#set -x
+#set -e
+shopt -s extglob
+
+#system
+declare APP="${0##*/}"
+declare _VERSION_="1.0.0-20241205"
+declare distro="$(uname -n)"
+declare DEPENDENCIES=(tput)
+source /usr/share/fetch/core.sh
+
+MostraErro() {
+  echo "erro: ${red}$1${reset} => comando: ${cyan}'$2'${reset} => result=${yellow}$3${reset}"
 }
+trap 'MostraErro "$APP[$FUNCNAME][$LINENO]" "$BASH_COMMAND" "$?"; exit 1' ERR
+
